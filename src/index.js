@@ -6,8 +6,14 @@ const fs = require('fs');
 // Creates an instance of the Express library (an Express application)
 const app = express();
 
-// Our HTTP server will listen on port 3000
-const port = 3000;
+// Throws an error that tells us when the required environment variable isn’t supplied
+if (!process.env.PORT) {
+  throw new Error('You must set the PORT environment variable');
+}
+
+// Copies the environment variable to a global variable for easy access
+// This is the port that our HTTP server will listen on
+const PORT = process.env.PORT;
 
 // Creates a route handler for the main HTTP Get route
 // The handler prints Hello World! in the web browser
@@ -35,5 +41,5 @@ app.get('/video', async (req, res) => {
   fs.createReadStream(videoPath).pipe(res);
 })
 
-// Initiates the HTTP server
-app.listen(port);
+// Starts the HTTP server using the port number that was input to the microservice
+app.listen(PORT);
